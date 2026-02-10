@@ -15,7 +15,7 @@ This project demonstrates the standard agent pattern:
 - Digits (integers/decimals), negative numbers
 - `plus`, `minus`, `times`, `multiplied by`, `divided by`
 - Parentheses for explicit order
-- Minor typos and spelled numbers when intent is clear (LLM interpretation)
+- Minor typos and spelled numbers when intent is clear (LLM interpretation, not guaranteed)
 
 ### Out of Scope
 
@@ -28,6 +28,13 @@ This project demonstrates the standard agent pattern:
 2. LangChain agent is always attempted first and selects arithmetic tools.
 3. If LLM execution fails and fallback is enabled, strict pure expressions are evaluated safely.
 4. Final output returns only the numeric result or a guardrail message.
+
+## Current Behavior Update
+
+- The project now uses an **LLM-first** policy for all inputs.
+- Deterministic fallback is a **safety net**, not a primary execution path.
+- Fallback is **off by default** and only activates on LLM/runtime failure.
+- Fallback only supports strict expressions like `2 + 2 * (10 - 3)`.
 
 ## Repository Structure
 
@@ -78,6 +85,8 @@ Interactive mode:
 ```bash
 python -m src.main
 ```
+
+Note: interactive mode needs a real terminal input stream. In non-interactive contexts (scripts/CI), use `--query`.
 
 Enable deterministic fallback safety net:
 
